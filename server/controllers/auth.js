@@ -1,7 +1,7 @@
-const User = require("../models/user");
-const AWS = require("aws-sdk");
-const jwt = require("jsonwebtoken");
-const { registerEmailParams } = require("../helpers/email");
+const User = require('../models/user');
+const AWS = require('aws-sdk');
+const jwt = require('jsonwebtoken');
+const { registerEmailParams } = require('../helpers/email');
 
 AWS.config.update({
 	accessKeyId: process.env.AWS_ACCESS_KEY_ID,
@@ -9,7 +9,7 @@ AWS.config.update({
 	region: process.env.AWS_REGION,
 });
 
-const ses = new AWS.SES({ apiVersion: "2010-12-01" });
+const ses = new AWS.SES({ apiVersion: '2010-12-01' });
 
 exports.register = (req, res) => {
 	// console.log('Register Controller', req.body);
@@ -19,7 +19,7 @@ exports.register = (req, res) => {
 	User.findOne({ email }).exec((err, user) => {
 		if (user) {
 			return res.status(400).json({
-				error: "Email is taken",
+				error: 'Email is taken',
 			});
 		}
 
@@ -28,27 +28,27 @@ exports.register = (req, res) => {
 			{ name, email, password },
 			process.env.JWT_ACCOUNT_ACTIVATION,
 			{
-				expiresIn: "10m",
-			}
+				expiresIn: '10m',
+			},
 		);
-    
-    // send email
-    const params = registerEmailParams(email, token);
+
+		// send email
+		const params = registerEmailParams(email, token);
 
 		const sendEmailOnRegister = ses.sendEmail(params).promise();
 
 		sendEmailOnRegister
 			.then((data) => {
-				console.log("Email submitted to SES", data);
+				console.log('Email submitted to SES', data);
 				res.json({
-          message: `Email has been sent to ${email}, Follow the instructions to complete your registration`,
-        });
+					message: `Email has been sent to ${email}, Follow the instructions to complete your registration`,
+				});
 			})
 			.catch((error) => {
-				console.log("SES email on register", error);
+				console.log('SES email on register', error);
 				res.json({
-          error: `We could not verify your email, please try again.`,
-        });
+					error: `We could not verify your email, please try again.`,
+				});
 			});
 	});
 };

@@ -1,15 +1,15 @@
-import { useState } from "react";
-import Layout from "../components/Layout";
-import axios from "axios";
+import { useState } from 'react';
+import Layout from '../components/Layout';
+import axios from 'axios';
 
 const Register = () => {
 	const [state, setState] = useState({
-		name: "",
-		email: "",
-		password: "",
-		error: "",
-		success: "",
-		buttonText: "Register",
+		name: '',
+		email: '',
+		password: '',
+		error: '',
+		success: '',
+		buttonText: 'Register',
 	});
 
 	const { name, email, password, error, success, buttonText } = state;
@@ -18,55 +18,60 @@ const Register = () => {
 		setState({
 			...state,
 			[name]: event.target.value,
-			error: "",
-			success: "",
-			buttonText: "Register",
+			error: '',
+			success: '',
+			buttonText: 'Register',
 		});
 	};
 
 	const handleSubmit = (event) => {
 		event.preventDefault();
 		console.table({ name, email, password });
-		axios.post(`http://localhost:8000/api/register`, {
-			name,
-			email,
-			password,
-		})
-		.then(response => console.log(response))
-		.catch(error => console.log(error));
+		axios
+			.post(`http://localhost:8000/api/register`, {
+				name,
+				email,
+				password,
+			})
+			.then((response) => {
+				setState({
+					email,
+				});
+			})
+			.catch((error) => console.log(error));
 	};
 
 	const registerForm = () => (
 		<form onSubmit={handleSubmit}>
-			<div className="form-group">
+			<div className='form-group'>
 				<input
 					value={name}
-					onChange={handleChange("name")}
-					type="text"
-					className="form-control"
-					placeholder="Type your name"
+					onChange={handleChange('name')}
+					type='text'
+					className='form-control'
+					placeholder='Type your name'
 				/>
 			</div>
-			<div className="form-group">
+			<div className='form-group'>
 				<input
 					value={email}
-					onChange={handleChange("email")}
-					type="email"
-					className="form-control"
-					placeholder="Type your email"
+					onChange={handleChange('email')}
+					type='email'
+					className='form-control'
+					placeholder='Type your email'
 				/>
 			</div>
-			<div className="form-group">
+			<div className='form-group'>
 				<input
 					value={password}
-					onChange={handleChange("password")}
-					type="password"
-					className="form-control"
-					placeholder="Type your password"
+					onChange={handleChange('password')}
+					type='password'
+					className='form-control'
+					placeholder='Type your password'
 				/>
 			</div>
-			<div className="form-group">
-				<button type="submit" className="btn btn-outline-warning">
+			<div className='form-group'>
+				<button type='submit' className='btn btn-outline-warning'>
 					{buttonText}
 				</button>
 			</div>
@@ -75,7 +80,7 @@ const Register = () => {
 
 	return (
 		<Layout>
-			<div className="col-md-6 offset-md-3">
+			<div className='col-md-6 offset-md-3'>
 				<h1>Register</h1>
 				<br />
 				{registerForm()}
