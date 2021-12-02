@@ -25,34 +25,34 @@ const Register = () => {
 		});
 	};
 
-	const handleSubmit = (event) => {
+	const handleSubmit = async (event) => {
 		event.preventDefault();
 		console.table({ name, email, password });
 
 		setState({ ...state, buttonText: 'Registering' });
-		axios
-			.post(`http://localhost:8000/api/register`, {
+
+		try {
+			const response = await axios.post(`http://localhost:8000/api/register`, {
 				name,
 				email,
 				password,
-			})
-			.then((response) => {
-				setState({
-					...state,
-					name: '',
-					email: '',
-					password: '',
-					buttonText: 'Submitted',
-					success: response.data.message,
-				});
-			})
-			.catch((error) => {
-				setState({
-					...state,
-					buttonText: 'Register',
-					error: error.response.data.error,
-				});
 			});
+			setState({
+				...state,
+				name: '',
+				email: '',
+				password: '',
+				buttonText: 'Submitted',
+				success: response.data.message,
+			});
+		} catch (error) {
+			console.log(error);
+			setState({
+				...state,
+				buttonText: 'Register',
+				error: error.response.data.error,
+			});
+		}
 	};
 
 	const registerForm = () => (
