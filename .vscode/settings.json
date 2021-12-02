@@ -1,8 +1,10 @@
 {
   "cSpell.words": [
     "crossorigin",
+    "localstorage",
     "middlewares",
-    "nprogress"
+    "nprogress",
+    "signin"
   ],
   "editor.formatOnSave": true
 }
