@@ -3,5 +3,6 @@
     "crossorigin",
     "middlewares",
     "nprogress"
-  ]
+  ],
+  "editor.formatOnSave": true
 }
