@@ -46,6 +46,7 @@ export const getCookieFromServer = (key, req) => {
 	}
 	let tokenValue = token.split('=')[1];
 	console.log('getCookieFromServer', tokenValue);
+	return tokenValue;
 };
 
 // set in localstorage
