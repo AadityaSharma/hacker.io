@@ -1,17 +1,9 @@
 import Layout from '../../components/Layout';
 import axios from 'axios';
+import withAdmin from '../withAdmin';
 
-const Admin = ({ todos }) => {
-	return <Layout>{JSON.stringify(todos)}</Layout>;
+const Admin = ({ user }) => {
+	return <Layout>Hello world! {JSON.stringify(user)}</Layout>;
 };
 
-Admin.getInitialProps = async () => {
-	const response = await axios.get(
-		`https://jsonplaceholder.typicode.com/todos`,
-	);
-	return {
-		todos: response.data,
-	};
-};
-
-export default Admin;
+export default withAdmin(Admin);
