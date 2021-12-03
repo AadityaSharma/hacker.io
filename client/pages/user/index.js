@@ -1,17 +1,30 @@
 import Layout from '../../components/Layout';
 import axios from 'axios';
+import { API } from '../../config';
+import { getCookie } from '../../helpers/auth';
 
-const User = ({ todos }) => {
-	return <Layout>{JSON.stringify(todos)}</Layout>;
+const User = ({ user }) => {
+	return <Layout>{JSON.stringify(user)}</Layout>;
 };
 
-User.getInitialProps = async () => {
-	const response = await axios.get(
-		`https://jsonplaceholder.typicode.com/todos`,
-	);
-	return {
-		todos: response.data,
-	};
+User.getInitialProps = async (context) => {
+	const token = getCookie('token', context.req);
+
+	try {
+		const response = await axios.get(`${API}/user`, {
+			headers: {
+				authorization: `Bearer ${token}`,
+				contentType: 'application/json',
+			},
+		});
+		return { user: response.data };
+	} catch (error) {
+		if (error.response.status === 401) {
+			return {
+				user: 'No user!',
+			};
+		}
+	}
 };
 
 export default User;
