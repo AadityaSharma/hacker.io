@@ -4,7 +4,8 @@
     "localstorage",
     "middlewares",
     "nprogress",
-    "signin"
+    "signin",
+    "uuidv"
   ],
   "editor.formatOnSave": true
 }
